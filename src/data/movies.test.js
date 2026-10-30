@@ -5,7 +5,16 @@ describe("Datos de la cartelera", () => {
   test("hay ocho películas con los campos que pide el laboratorio", () => {
     expect(movies).toHaveLength(8);
     for (const movie of movies) {
-      expect(Object.keys(movie).sort()).toEqual(["id", "image", "rating", "showtimes", "synopsis", "title"]);
+      expect(Object.keys(movie).sort()).toEqual([
+        "classification",
+        "id",
+        "image",
+        "rating",
+        "showtimes",
+        "synopsis",
+        "title",
+      ]);
+      expect(movie.classification).toBeTruthy();
       expect(Array.isArray(movie.showtimes)).toBe(true);
     }
   });

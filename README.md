@@ -19,8 +19,8 @@ npm install
 npm run dev        # abre http://localhost:5173 (usa «localhost», no 127.0.0.1)
 ```
 
-Al principio la pantalla muestra un error rojo: `TODO(team): write Header ...`. Es lo esperado, porque tus ocho
-componentes todavía están sin escribir. Cada vez que escribas uno, el error pasa al siguiente.
+La pantalla muestra el encabezado del cine, que corresponde al paso 05 de la guía del laboratorio. Los pasos
+siguientes agregan los demás componentes; sus archivos de trabajo siguen disponibles en `src/duel/team/`.
 
 ## Parte 1 — Leer el verificador
 
