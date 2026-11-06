@@ -1,7 +1,10 @@
-// TODO(team) · Task 7
-// Props: movie (a movie object).
-// Returns a <section aria-label="Destacada"> with an <h2> holding the title and a
-// link "Ver horarios" that points to #horarios-<id>.
 export default function Hero({ movie }) {
-  throw new Error("TODO(team): write Hero in src/duel/team/Hero.jsx");
+  return (
+    <section className="hero" aria-label="Destacada" style={{ backgroundImage: `linear-gradient(90deg, rgb(8 12 25 / 92%), rgb(8 12 25 / 25%)), url(${movie.image})` }}>
+      <p className="eyebrow">ESTRENO DESTACADO · {movie.classification}</p>
+      <h2>{movie.title}</h2>
+      <p className="hero-synopsis">{movie.synopsis}</p>
+      <a href={`#horarios-${movie.id}`}>Ver horarios</a>
+    </section>
+  );
 }
