@@ -14,13 +14,31 @@ main { max-width: 78rem; margin: 0 auto; padding: 1.75rem 1.5rem 4rem; }
 .hero h2 { max-width: 40rem; margin: 0; font-size: clamp(2.2rem, 7vw, 4.25rem); letter-spacing: -.055em; line-height: 1.05; }
 .hero a { margin-top: .75rem; padding: .75rem 1.15rem; color: #17120d; background: #ffbd69; border-radius: 999px; font-weight: 700; }
 .hero-synopsis { max-width: 34rem; color: #e6e1da; }
+.movie-search { width: min(100%, 38rem); margin-top: 1.5rem; padding: 1rem; color: #f4f1eb; background: #101116d9; border: 1px solid #ffffff29; border-radius: .85rem; }
+.movie-search label { display: block; margin-bottom: .5rem; font-size: .9rem; font-weight: 700; }
+.movie-search-controls { display: flex; flex-wrap: wrap; gap: .5rem; }
+.movie-search input { flex: 1 1 13rem; min-width: 0; padding: .7rem .85rem; color: #f4f1eb; background: #25252c; border: 1px solid #ffffff30; border-radius: .55rem; font: inherit; }
+.movie-search input:focus-visible, .button:focus-visible { outline: 3px solid #ffd08c; outline-offset: 2px; }
+.search-hint { display: block; margin-top: .45rem; color: #aaa8af; font-size: .76rem; }
+.button { display: inline-flex; align-items: center; justify-content: center; min-height: 2.65rem; padding: .55rem .95rem; border: 1px solid transparent; border-radius: .55rem; font: inherit; font-size: .88rem; font-weight: 700; cursor: pointer; transition: background-color .15s ease, transform .15s ease, border-color .15s ease; }
+.button:hover { transform: translateY(-1px); }
+.button-primary { color: #17120d; background: #ffbd69; }
+.button-primary:hover { background: #ffd08c; }
+.button-secondary { color: #f4f1eb; background: #292930; border-color: #ffffff30; }
+.button-secondary:hover, .button-quiet:hover { background: #393941; }
+.button-quiet { color: #e2d8cc; background: transparent; }
+.button-favorite { width: 100%; color: #ffd39a; background: #30251e; border-color: #62472f; }
+.button-favorite:hover { background: #453123; }
+.button-favorite-active { color: #24130f; background: #ffbd69; border-color: #ffbd69; }
+.button-favorite-active:hover { background: #ffd08c; }
+.favorite-count { color: #ffcf91 !important; font-size: .88rem; }
 .eyebrow { color: #ffbd69; font-size: .72rem; font-weight: 800; letter-spacing: .16em; }
 .section-heading { padding: 3rem 0 1rem; }
 .section-heading h2 { margin: 0; font-size: clamp(1.8rem, 4vw, 2.5rem); letter-spacing: -.04em; }
 .section-heading > p:last-child, .coming-soon { color: #aaa8af; }
 .synopsis, .agent-message { white-space: pre-line; max-width: 46rem; color: #b8b6bd; }
 .showtimes { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; padding: 0; margin: .5rem 0 0; }
-.showtimes li { background: #30251e; border: 1px solid #62472f; color: #ffd39a; border-radius: 999px; padding: .2rem .75rem; font-variant-numeric: tabular-nums; }
+.showtimes li, .showtimes span { background: #30251e; border: 1px solid #62472f; color: #ffd39a; border-radius: 999px; padding: .2rem .75rem; font-variant-numeric: tabular-nums; }
 .movie-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: 1.2rem; list-style: none; padding: 0; }
 .movie-list > li { min-width: 0; }
 .movie-card { height: 100%; background: #1b1b21; border: 1px solid #ffffff14; border-radius: .9rem; overflow: hidden; transition: transform .2s ease, border-color .2s ease; }
@@ -33,6 +51,10 @@ main { max-width: 78rem; margin: 0 auto; padding: 1.75rem 1.5rem 4rem; }
 .classification { color: #aaa8af; font-size: .75rem; }
 .rating { color: #ffbd69 !important; font-weight: 700; }
 .coming-soon { padding: 1.25rem 1.5rem; border: 1px solid #ffffff14; border-radius: .9rem; }
+.empty-state { padding: clamp(2rem, 6vw, 4rem); text-align: center; background: #1b1b21; border: 1px dashed #ffffff30; border-radius: 1rem; }
+.empty-state-icon { display: inline-block; color: #ffbd69; font-size: 2.5rem; }
+.empty-state h3 { margin: .25rem 0; font-size: 1.35rem; }
+.empty-state p { color: #aaa8af; }
 footer { margin-top: 2rem; background: #19191f; border-top: 1px solid #ffffff14; color: #aaa8af; }
 footer p { margin: .25rem 0; }
 footer small { display: block; margin-top: .85rem; }
