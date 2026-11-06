@@ -41,7 +41,7 @@
 | Mostrar sinopsis con etiquetas HTML | Las etiquetas se muestran como texto y no se ejecutan | Renderizado seguro en JSX; comprobación visual pendiente |
 | Compilar para producción | Vite genera los archivos de `dist/` sin errores | Correcto: `npm run build` |
 
-**Capturas solicitadas por la guía:** la captura del resultado en el navegador y la captura de la estructura abierta en el editor aún están pendientes. El navegador integrado rechazó abrir `http://localhost:5173/` por el control de autorización de origen; no inserté imágenes simuladas como si fueran capturas reales. El servidor local está disponible en esa dirección para obtenerlas manualmente.
+**Capturas solicitadas por la guía:** la captura del resultado en el navegador y la captura de la estructura abierta en el editor aún están pendientes. El servidor local está disponible en `http://localhost:5173/`.
 
 **Estructura del proyecto:**
 
