@@ -1,5 +1,54 @@
 # React revisado por pruebas — la IA escribe, el verificador decide
 
+## Desarrollo del laboratorio S10 — Componentes y eventos
+
+**Alumno:** Michael Montgomery Rosell  
+**Título del desarrollo:** Búsqueda de películas y favoritos con estado y eventos
+
+La cartelera de la Semana 9 se amplió con un botón reutilizable, búsqueda controlada con retardo y favoritos persistentes. El componente `Button` recibe su contenido por `children` y una variante visual por props. `MovieSearch` mantiene el texto inmediato del campo en su estado y comunica el término al padre tras 350 ms; el formulario permite aplicar la búsqueda sin esperar ese retardo. `MovieList` filtra por título y sinopsis, y muestra una acción para limpiar cuando no encuentra coincidencias.
+
+`App` guarda los identificadores favoritos con `useState` porque su valor afecta a varias tarjetas y al contador general. La función `toggleFavorite` se pasa a `MovieList` y luego a cada `MovieCard`, de modo que el hijo comunica el clic al padre sin modificar directamente el estado ajeno. Un efecto sincroniza la lista con `localStorage` y la recupera cuando vuelve a cargarse la página. El texto de entrada permanece en `MovieSearch`, ya que solo controla ese campo; el término aplicado vive en `App`, donde se comparte con la cartelera.
+
+El botón se reutiliza en la búsqueda, las tarjetas y el estado vacío con distintas variantes. `MovieCard` indica si la película está guardada y ofrece una acción accesible para agregarla o quitarla. En modo de desarrollo, la consola registra el término aplicado después del retardo para distinguirlo de cada pulsación.
+
+### Evidencia y casos de prueba de la Semana 10
+
+| Caso | Resultado | Evidencia |
+|---|---|---|
+| Variantes del botón | El contenido cambia por `children` y la presentación por `variant` | Prueba automatizada aprobada |
+| Búsqueda controlada | El campo refleja cada letra y notifica después de 350 ms | Prueba con temporizador simulado aprobada |
+| Filtro de títulos y estado vacío | La cartelera muestra coincidencias o el aviso con opción para limpiar | Prueba automatizada aprobada |
+| Favoritos y comunicación hijo a padre | El clic cambia `aria-pressed` y actualiza el contador | Prueba automatizada aprobada |
+| Persistencia de favoritos | Al volver a montar la aplicación se recupera la película guardada | Prueba automatizada aprobada |
+| Pruebas del duelo S09 | Se mantienen las tareas de componentes anteriores | 43 pruebas aprobadas |
+| Suite completa S09 y S10 | Datos, componentes y eventos de la cartelera | 51 pruebas aprobadas en 10 archivos |
+| Compilación de producción | Vite genera los archivos en `dist/` | `npm run build` aprobado |
+
+La captura del estado vacío solicitada por la guía debe añadirse desde el navegador local (`http://localhost:5173/`) luego de buscar un título que no exista. La prueba automatizada confirma el mensaje y la acción para limpiar.
+
+El documento resuelto se incluye en `entregables/GLAB-S10-MMONTGOMERY-2026-02-resuelto.docx`.
+
+### Estructura añadida en S10
+
+```text
+src/
+├── components/
+│   ├── Button.jsx
+│   ├── MovieSearch.jsx
+│   └── components.test.jsx
+├── duel/team/
+│   ├── AgentMessage.jsx
+│   ├── Hero.jsx
+│   ├── MovieCard.jsx
+│   └── MovieList.jsx
+├── App.jsx
+└── styles/index.css
+```
+
+### Conclusiones de la Semana 10
+
+Separar el estado de la entrada del estado de filtrado permite que el campo responda de inmediato mientras la cartelera espera el retardo antes de actualizarse. El botón compartido evita duplicar marcado y estilos en cada acción, y sus variantes hacen que el mismo componente sirva para búsquedas, favoritos y limpieza de filtros. El ejercicio también mostró la comunicación en ambos sentidos de React: el padre entrega estado y funciones a los hijos, y las tarjetas notifican sus eventos a `App` por medio de la función recibida. Guardar solamente los identificadores de las películas mantiene el almacenamiento pequeño y permite restaurar los favoritos tras una recarga.
+
 ## Desarrollo del laboratorio S09 — Cartelera Cine Tecsup
 
 **Alumno:** Michael Montgomery Rosell  
@@ -103,7 +152,7 @@ resuelve las mismas ocho tareas (y falla de seis maneras distintas) y llevas una
 
 La guía del laboratorio (con su rúbrica) está en el campus virtual; aquí está el código.
 
-> No hay estado ni hooks en este laboratorio: todo son componentes funcionales que reciben props. Eso es la semana 10.
+> El bloque de pruebas del duelo S09 se enfoca en componentes y props; el desarrollo S10 de esta misma carpeta incorpora `useState`, eventos y persistencia.
 
 ## Puesta en marcha
 
@@ -114,8 +163,7 @@ npm install
 npm run dev        # abre http://localhost:5173 (usa «localhost», no 127.0.0.1)
 ```
 
-La pantalla muestra el encabezado del cine, que corresponde al paso 05 de la guía del laboratorio. Los pasos
-siguientes agregan los demás componentes; sus archivos de trabajo siguen disponibles en `src/duel/team/`.
+La pantalla actual compone la cartelera completa con encabezado, banner, buscador, tarjetas, favoritos y pie de página. Los componentes de la Semana 9 permanecen en `src/duel/team/`; los componentes nuevos de la Semana 10 están en `src/components/`.
 
 ## Parte 1 — Leer el verificador
 
@@ -124,14 +172,12 @@ Las pruebas son el oráculo: deciden si un componente está bien. Están en `src
 accesible y qué texto se espera, y qué avisos de React no se aceptan. Los datos fijos están en `src/data/movies.js`.
 
 ```powershell
-npm run duel       # tus componentes (src/duel/team/): al principio todo en rojo
+npm run duel       # verifica los componentes de src/duel/team/
 ```
 
 ## Parte 2 — Escribir los ocho componentes
 
-Escribe cada componente en su archivo de `src/duel/team/` (hoy lanza un error `TODO(team)`). La cabecera de cada
-archivo dice qué props recibe y qué debe devolver. Después de cada uno, `npm run duel`; la pantalla
-(`npm run dev`) compone los ocho en `src/App.jsx`.
+Los componentes de `src/duel/team/` ya están implementados y se pueden revisar con `npm run duel`. La tabla resume las props que recibe cada uno.
 
 | Tarea | Componente | Props |
 |---|---|---|
