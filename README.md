@@ -1,5 +1,100 @@
 # React revisado por pruebas — la IA escribe, el verificador decide
 
+## Desarrollo del laboratorio S09 — Cartelera Cine Tecsup
+
+**Alumno:** Michael Montgomery Rosell  
+**Título del desarrollo:** Cartelera de cine con componentes funcionales y props
+
+### Evidencia del desarrollo
+
+**Código principal:** `src/App.jsx` compone las partes de la página y entrega los datos mediante props:
+
+```jsx
+<Header name="Cine Tecsup" links={links} />
+<Hero movie={featuredMovie} />
+<MovieList movies={movies} />
+<Footer contact={contact} />
+```
+
+`MovieList` recorre el arreglo y utiliza el identificador de cada película como clave:
+
+```jsx
+<ul className="movie-list">
+  {movies.map((movie) => (
+    <li key={movie.id}>
+      <MovieCard movie={movie} />
+    </li>
+  ))}
+</ul>
+```
+
+**Explicación:** `App` lee los datos compartidos de `src/data/movies.js`. `Hero`, `MovieList` y `Footer` reciben solo la información que necesitan. Cada `MovieCard` presenta afiche, título, clasificación, valoración, sinopsis y horarios. `Synopsis` interpola la sinopsis como texto para que HTML de terceros no se interprete como marcado ejecutable.
+
+**Casos de prueba considerados:**
+
+| Caso | Resultado esperado | Estado |
+|---|---|---|
+| Cargar la cartelera | Aparecen ocho tarjetas con sus datos | Compilación correcta; comprobación visual pendiente |
+| Película sin horarios | Se lee «Sin funciones hoy» | Incluido para la película 5; comprobación visual pendiente |
+| Ir a Cartelera, Próximamente o Contacto | La navegación llega a la sección correspondiente | Enlaces y destinos implementados |
+| Abrir contacto | Teléfono y correo usan `tel:` y `mailto:` | Implementado |
+| Mostrar sinopsis con etiquetas HTML | Las etiquetas se muestran como texto y no se ejecutan | Renderizado seguro en JSX; comprobación visual pendiente |
+| Compilar para producción | Vite genera los archivos de `dist/` sin errores | Correcto: `npm run build` |
+
+**Capturas solicitadas por la guía:** la captura del resultado en el navegador y la captura de la estructura abierta en el editor aún están pendientes. El navegador integrado rechazó abrir `http://localhost:5173/` por el control de autorización de origen; no inserté imágenes simuladas como si fueran capturas reales. El servidor local está disponible en esa dirección para obtenerlas manualmente.
+
+**Estructura del proyecto:**
+
+```text
+semana-09/
+├── public/posters/          # Afiches de las ocho películas
+├── src/
+│   ├── data/movies.js       # Cartelera, navegación y contacto
+│   ├── duel/team/           # Componentes funcionales del laboratorio
+│   ├── duel/tests/          # Pruebas automatizadas del repositorio
+│   ├── styles/index.css     # Estilos adaptables
+│   ├── App.jsx              # Composición de la interfaz
+│   └── main.jsx             # Punto de entrada de React
+└── README.md                # Evidencia y explicación
+```
+
+La aplicación presenta la cartelera completa de ocho películas. `App.jsx` toma los datos de `src/data/movies.js` y pasa por props la película destacada, la lista y los datos de contacto. Los componentes funcionales están organizados por responsabilidad en `src/duel/team/`: `Header`, `Hero`, `MovieList`, `MovieCard`, `Showtimes`, `Synopsis` y `Footer`. Las tarjetas muestran afiche, título, clasificación, valoración, sinopsis y horarios; la película sin funciones informa «Sin funciones hoy».
+
+La sinopsis se renderiza como texto JSX, nunca como HTML. Esto evita que etiquetas o manejadores incrustados en contenido de terceros se ejecuten. La lista usa `movie.id` como clave estable. Los estilos están en `src/styles/index.css` y son adaptables a pantallas pequeñas. Las imágenes de muestra están en `public/posters/`.
+
+### Ejecución
+
+Requisitos: Node.js 20 o superior. En PowerShell, desde la carpeta del repositorio:
+
+```powershell
+npm install
+npm run dev
+```
+
+Vite muestra la dirección local en la terminal. Para generar la versión de producción: `npm run build`.
+
+### Observaciones de errores JSX habituales
+
+Estos son los mensajes que React suele mostrar al reproducir deliberadamente cada error en desarrollo (el texto exacto puede variar según la versión):
+
+1. Escribir `class` en JSX: `Warning: Invalid DOM property 'class'. Did you mean 'className'?`
+2. Devolver dos elementos hermanos sin envolver: `Adjacent JSX elements must be wrapped in an enclosing tag.`
+3. Omitir `key` en elementos creados con `map`: `Each child in a list should have a unique "key" prop.`
+
+Los errores se describen aquí como observaciones del laboratorio; la aplicación entregada ya usa `className`, un fragmento como raíz cuando hace falta y claves para los elementos de la cartelera.
+
+### Casos revisados en la interfaz
+
+- Se muestran las ocho películas y cada tarjeta presenta sus datos.
+- La película 5 cubre el caso de lista de horarios vacía.
+- Los enlaces de navegación llevan a cartelera, próximos estrenos y contacto.
+- Los enlaces de correo y teléfono usan `mailto:` y `tel:`.
+- La sinopsis de prueba contiene etiquetas HTML; la interfaz debe mostrarla como texto y no ejecutar su contenido.
+
+### Conclusiones
+
+La composición de componentes mantiene cada parte de la interfaz acotada y facilita reutilizar la tarjeta y la lista. Las props conectan los datos con sus vistas sin duplicar la cartelera en cada componente. Las claves identifican de forma estable cada película, y tratar la sinopsis como texto protege la página de HTML no confiable.
+
 Repositorio del laboratorio **extra de la semana 9** de Desarrollo de Aplicaciones Empresariales (DAE).
 Complementa el laboratorio oficial de la cartelera de cine (Vite, JSX, componentes, props y listas con `map`):
 aquí escribes **ocho componentes pequeños** de esa cartelera contra **pruebas automáticas**, ves cómo una IA
