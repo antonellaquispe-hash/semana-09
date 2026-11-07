@@ -1,5 +1,51 @@
 # React revisado por pruebas — la IA escribe, el verificador decide
 
+## Desarrollo del laboratorio S11 — Comunicación entre componentes
+
+**Alumno:** Michael Montgomery Rosell  
+**Título del desarrollo:** Estado compartido, hooks propios y próximos estrenos
+
+La cartelera de la Semana 11 amplía el proyecto S10. `App` conserva los identificadores de favoritas porque los necesitan tanto la cabecera como las tarjetas; a la cabecera le entrega únicamente `favoriteCount`, mientras que cada tarjeta recibe el estado de su película y una función para comunicar el clic. `App` procesa ese evento y muestra el aviso emergente. Así, `MovieCard` no conoce ni controla cómo se presentan los avisos.
+
+El texto inmediato del buscador vive en `App` y se comparte con el buscador del banner. El término aplicado al listado también vive allí, porque lo consumen `MovieList` y el botón «Limpiar filtro» del banner. Ambos controles llaman a la misma operación para limpiar el texto y el filtro; el hook `useDebounce` aplica el retardo a la búsqueda y también desacopla el identificador de recarga en `usePremieres`.
+
+La utilidad `adaptMovie` traduce los nombres del formato de datos externo (`name`, `poster_path`, `overview`, `vote_average`) al modelo de la tarjeta (`title`, `image`, `synopsis`, `rating`). La cartelera existente y los estrenos simulados atraviesan el adaptador. `useWindowSize` escucha cambios del viewport y permite elegir una, dos, tres o cuatro columnas. `usePremieres` administra carga, respuesta y error; `MovieSkeleton` informa la carga, `PremiereCarousel` presenta los estrenos y el estado de error ofrece reintento. Para revisar la vista de error, se puede abrir la aplicación con `?premieresError=1`.
+
+### Árbol de componentes y estado
+
+```text
+App
+├── Header (links, favoriteCount)
+├── Hero (searchText, onSearch, onSearchTextChange, onClearSearch)
+│   └── MovieSearch (texto inmediato; useDebounce para aplicar búsqueda)
+├── MovieList (películas, filtro aplicado, favoritas)
+│   └── MovieCard (estado de favorita y evento de clic)
+├── PremiereSection
+│   ├── usePremieres → MovieSkeleton | mensaje de error | PremiereCarousel
+│   └── PremiereCarousel (índice del elemento visible)
+├── Footer
+└── Toast (aviso controlado por App)
+```
+
+El contador no debe vivir en `Header`: las acciones que cambian favoritas ocurren en las tarjetas, hermanas de la cabecera. Mantener el estado en el ancestro común `App` permite que ambos lados se actualicen a partir de una sola fuente. La cabecera recibe solo el número, no la lista de películas favoritas.
+
+### Observaciones y casos de comprobación
+
+| Caso | Comportamiento esperado |
+|---|---|
+| Agregar o quitar una favorita | Cambian el botón de la tarjeta, el contador de la cabecera y el aviso emergente; la lista persiste en `localStorage` |
+| Escribir y limpiar una búsqueda | El campo y el listado se sincronizan; el retardo lo gestiona `useDebounce` |
+| Limpiar desde el banner | Se vacían el campo y el término aplicado, y reaparecen todas las películas |
+| Redimensionar la ventana | La cartelera cambia entre una y cuatro columnas según el ancho |
+| Cargar estrenos | Se muestra el esqueleto y luego el carrusel de tres títulos |
+| Provocar un error | `?premieresError=1` muestra el mensaje y la acción para reintentar |
+
+La biblioteca de interfaz Bootstrap 5.3.3 aporta las utilidades visuales `placeholder` y `placeholder-glow` a los esqueletos; el carrusel conserva los controles y el estado en React para que su navegación sea accesible y predecible. Para ejecutar el proyecto: `npm install`, `npm run dev`; para revisar las suites disponibles: `npm test`; para generar producción: `npm run build`.
+
+### Conclusiones de la Semana 11
+
+Elevar el estado al ancestro compartido permite que cabecera, buscador, banner y tarjetas permanezcan sincronizados sin compartir más datos de los necesarios. Los hooks concentran temporizadores, cambios de tamaño y estados asíncronos fuera de los componentes visuales. El adaptador mantiene una frontera clara entre el formato que entrega un servicio y el modelo estable que presenta la aplicación.
+
 ## Desarrollo del laboratorio S10 — Componentes y eventos
 
 **Alumno:** Michael Montgomery Rosell  
