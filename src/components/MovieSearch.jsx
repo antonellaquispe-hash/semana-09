@@ -1,28 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Button from "./Button.jsx";
+import useDebounce from "../hooks/useDebounce.js";
 
 const SEARCH_DELAY_MS = 350;
 
-export default function MovieSearch({ onSearch = () => {} }) {
-  const [searchText, setSearchText] = useState("");
+export default function MovieSearch({ value = "", onChange = () => {}, onSearch = () => {} }) {
+  const debouncedSearchText = useDebounce(value, SEARCH_DELAY_MS);
 
   useEffect(() => {
-    const timeoutId = window.setTimeout(() => {
-      const normalizedText = searchText.trim();
-      if (import.meta.env.DEV) console.debug("Búsqueda aplicada:", normalizedText || "toda la cartelera");
-      onSearch(normalizedText);
-    }, SEARCH_DELAY_MS);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [searchText, onSearch]);
+    const normalizedText = debouncedSearchText.trim();
+    if (import.meta.env.DEV) console.debug("Búsqueda aplicada:", normalizedText || "toda la cartelera");
+    onSearch(normalizedText);
+  }, [debouncedSearchText, onSearch]);
 
   function handleSubmit(event) {
     event.preventDefault();
-    onSearch(searchText.trim());
+    onSearch(value.trim());
   }
 
   function handleClear() {
-    setSearchText("");
+    onChange("");
     onSearch("");
   }
 
@@ -33,13 +30,13 @@ export default function MovieSearch({ onSearch = () => {} }) {
         <input
           id="movie-search-input"
           type="search"
-          value={searchText}
-          onChange={(event) => setSearchText(event.target.value)}
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
           placeholder="Buscar por título o historia"
           autoComplete="off"
         />
         <Button type="submit" variant="primary">Buscar película</Button>
-        {searchText && <Button type="button" variant="quiet" onClick={handleClear}>Limpiar</Button>}
+        {value && <Button type="button" variant="quiet" onClick={handleClear}>Limpiar</Button>}
       </div>
       <span className="search-hint">Los resultados se actualizan al terminar de escribir.</span>
     </form>

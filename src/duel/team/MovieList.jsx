@@ -1,7 +1,7 @@
 import MovieCard from "./MovieCard.jsx";
 import Button from "../../components/Button.jsx";
 
-export default function MovieList({ movies, query = "", favoriteIds = [], onToggleFavorite = () => {}, onClearSearch = () => {} }) {
+export default function MovieList({ movies, query = "", favoriteIds = [], onToggleFavorite = () => {}, onClearSearch = () => {}, style = {} }) {
   const normalizedQuery = query.trim().toLocaleLowerCase("es");
   const matchingMovies = movies.filter((movie) =>
     `${movie.title} ${movie.synopsis}`.toLocaleLowerCase("es").includes(normalizedQuery),
@@ -19,7 +19,7 @@ export default function MovieList({ movies, query = "", favoriteIds = [], onTogg
   }
 
   return (
-    <ul className="movie-list">
+    <ul className="movie-list" style={style}>
       {matchingMovies.map((movie) => (
         <li key={movie.id}>
           <MovieCard
